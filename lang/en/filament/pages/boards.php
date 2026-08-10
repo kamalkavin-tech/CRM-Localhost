@@ -26,9 +26,9 @@ return [
     ],
 
     'deals' => [
-        'title' => 'Deals',
+        'title' => 'Sales Pipeline',
         'actions' => [
-            'add' => 'Add Deal',
+            'add' => 'Add Opportunity',
             'edit' => 'Edit',
             'delete' => 'Delete',
         ],
@@ -42,9 +42,9 @@ return [
     ],
 
     'orders' => [
-        'title' => 'Orders',
+        'title' => 'Project Delivery',
         'actions' => [
-            'add' => 'Add Order',
+            'add' => 'Add Project',
             'edit' => 'Edit',
             'delete' => 'Delete',
         ],
@@ -53,7 +53,7 @@ return [
             'contact' => 'Contact',
         ],
         'form' => [
-            'name_placeholder' => 'Enter order reference',
+            'name_placeholder' => 'Enter project title',
         ],
     ],
 

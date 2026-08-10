@@ -46,17 +46,17 @@ it('renders one column per deal stage, in pipeline order', function (): void {
 
 it('displays deals in the column matching their stage', function (): void {
     $opportunity = Deal::factory()->recycle([$this->user, $this->team])
-        ->create(['stage' => DealStage::OPPORTUNITY]);
+        ->create(['stage' => DealStage::NEW_LEAD]);
 
     $won = Deal::factory()->recycle([$this->user, $this->team])
-        ->create(['stage' => DealStage::WON]);
+        ->create(['stage' => DealStage::CLOSED_WON]);
 
     $board = getDealBoard();
 
-    expect($board->getBoardRecords(DealStage::OPPORTUNITY->value)->pluck('id'))
+    expect($board->getBoardRecords(DealStage::NEW_LEAD->value)->pluck('id'))
         ->toContain($opportunity->id)
         ->not->toContain($won->id)
-        ->and($board->getBoardRecords(DealStage::WON->value)->pluck('id'))
+        ->and($board->getBoardRecords(DealStage::CLOSED_WON->value)->pluck('id'))
         ->toContain($won->id)
         ->not->toContain($opportunity->id);
 });
@@ -89,38 +89,38 @@ it('redirects the legacy board url to the resource board page', function (): voi
 
 it('moves a card between columns via moveCard', function (): void {
     $deal = Deal::factory()->recycle([$this->user, $this->team])
-        ->create(['stage' => DealStage::OPPORTUNITY]);
+        ->create(['stage' => DealStage::NEW_LEAD]);
 
     livewire(DealsBoard::class)
-        ->call('moveCard', (string) $deal->id, DealStage::SOLUTION_FINALIZED->value)
+        ->call('moveCard', (string) $deal->id, DealStage::DISCOVERY->value)
         ->assertDispatched('kanban-card-moved');
 
-    expect($deal->fresh()->stage)->toBe(DealStage::SOLUTION_FINALIZED);
+    expect($deal->fresh()->stage)->toBe(DealStage::DISCOVERY);
 });
 
 it('clears a sub-stage that does not belong to the new stage', function (): void {
     $deal = Deal::factory()->recycle([$this->user, $this->team])->create([
-        'stage' => DealStage::PURCHASE_ORDER,
-        'sub_stage' => DealSubStage::PO_RECEIVED,
+        'stage' => DealStage::VERBAL_CONFIRMATION,
+        'sub_stage' => DealSubStage::CLIENT_APPROVED,
     ]);
 
     livewire(DealsBoard::class)
-        ->call('moveCard', (string) $deal->id, DealStage::INVOICE->value)
+        ->call('moveCard', (string) $deal->id, DealStage::PROPOSAL->value)
         ->assertDispatched('kanban-card-moved');
 
     $deal->refresh();
 
-    expect($deal->stage)->toBe(DealStage::INVOICE)
+    expect($deal->stage)->toBe(DealStage::PROPOSAL)
         ->and($deal->sub_stage)->toBeNull();
 });
 
 it('records a non-final sub-stage without advancing the stage', function (): void {
     $deal = Deal::factory()->recycle([$this->user, $this->team])->create([
-        'stage' => DealStage::SOLUTION_FINALIZED,
+        'stage' => DealStage::DISCOVERY,
         'sub_stage' => null,
     ]);
 
-    $firstSubStage = DealStage::SOLUTION_FINALIZED->subStages()[0];
+    $firstSubStage = DealStage::DISCOVERY->subStages()[0];
 
     livewire(DealsBoard::class)
         ->call('setSubStage', (string) $deal->id, $firstSubStage->value)
@@ -128,17 +128,17 @@ it('records a non-final sub-stage without advancing the stage', function (): voi
 
     $deal->refresh();
 
-    expect($deal->stage)->toBe(DealStage::SOLUTION_FINALIZED)
+    expect($deal->stage)->toBe(DealStage::DISCOVERY)
         ->and($deal->sub_stage)->toBe($firstSubStage);
 });
 
 it('advances a card to the next stage when its last sub-stage is chosen', function (): void {
     $deal = Deal::factory()->recycle([$this->user, $this->team])->create([
-        'stage' => DealStage::OPPORTUNITY,
+        'stage' => DealStage::NEW_LEAD,
         'sub_stage' => null,
     ]);
 
-    $subStages = DealStage::OPPORTUNITY->subStages();
+    $subStages = DealStage::NEW_LEAD->subStages();
     $lastSubStage = $subStages[array_key_last($subStages)];
 
     livewire(DealsBoard::class)
@@ -146,7 +146,7 @@ it('advances a card to the next stage when its last sub-stage is chosen', functi
         ->assertDispatched('kanban-card-moved');
 
     $deal->refresh();
-    $nextStage = DealStage::OPPORTUNITY->nextStage();
+    $nextStage = DealStage::NEW_LEAD->nextStage();
 
     expect($deal->stage)->toBe($nextStage)
         ->and($deal->sub_stage)->toBe($nextStage?->firstSubStage());
@@ -155,7 +155,7 @@ it('advances a card to the next stage when its last sub-stage is chosen', functi
 it('leaves a deal owned by another team untouched via setSubStage', function (): void {
     $otherUser = User::factory()->withTeam()->create();
     $otherDeal = Deal::factory()->for($otherUser->currentTeam)->create([
-        'stage' => DealStage::OPPORTUNITY,
+        'stage' => DealStage::NEW_LEAD,
         'sub_stage' => null,
     ]);
 
@@ -164,12 +164,12 @@ it('leaves a deal owned by another team untouched via setSubStage', function ():
         // Livewire version the abort either surfaces here or is swallowed into the
         // component response, so the security guarantee is asserted on the record.
         livewire(DealsBoard::class)
-            ->call('setSubStage', (string) $otherDeal->id, DealSubStage::ASSIGNED_SALESPERSON->value);
+            ->call('setSubStage', (string) $otherDeal->id, DealSubStage::UNCONTACTED->value);
     } catch (NotFoundHttpException) {
     }
 
     $otherDeal->refresh();
 
-    expect($otherDeal->stage)->toBe(DealStage::OPPORTUNITY)
+    expect($otherDeal->stage)->toBe(DealStage::NEW_LEAD)
         ->and($otherDeal->sub_stage)->toBeNull();
 });

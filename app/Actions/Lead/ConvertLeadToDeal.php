@@ -50,8 +50,8 @@ final readonly class ConvertLeadToDeal
                 'company_id' => $lead->company_id,
                 'contact_id' => $lead->contact_id,
                 'name' => $lead->name,
-                'stage' => DealStage::OPPORTUNITY,
-                'sub_stage' => DealSubStage::ASSIGNED_SALESPERSON,
+                'stage' => DealStage::NEW_LEAD,
+                'sub_stage' => DealSubStage::UNCONTACTED,
                 'creation_source' => CreationSource::WEB,
             ]);
 

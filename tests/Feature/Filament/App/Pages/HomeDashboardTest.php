@@ -50,14 +50,14 @@ it('sums both deal amounts and order values into the pipeline value', function (
 it('excludes soft-deleted records from the dashboard counts', function (): void {
     $team = $this->user->currentTeam;
 
-    Deal::factory()->recycle([$this->user, $team])->create(['stage' => DealStage::OPPORTUNITY]);
-    $trashed = Deal::factory()->recycle([$this->user, $team])->create(['stage' => DealStage::OPPORTUNITY]);
+    Deal::factory()->recycle([$this->user, $team])->create(['stage' => DealStage::NEW_LEAD]);
+    $trashed = Deal::factory()->recycle([$this->user, $team])->create(['stage' => DealStage::NEW_LEAD]);
     $trashed->delete();
 
     $dashboard = Livewire::test(Dashboard::class)->instance();
 
     $opportunity = collect($dashboard->pipelineBreakdown()['deals'])
-        ->firstWhere('label', DealStage::OPPORTUNITY->getLabel());
+        ->firstWhere('label', DealStage::NEW_LEAD->getLabel());
 
     // Only the kept deal is counted, not the trashed one.
     expect($opportunity['count'])->toBe(1)
@@ -120,14 +120,14 @@ it('reports counts from the CRM records rather than fixed figures', function ():
         ->create(['stage' => LeadStage::LOST]);
 
     Deal::factory()->count(2)->recycle([$this->user, $this->user->currentTeam])
-        ->create(['stage' => DealStage::OPPORTUNITY]);
+        ->create(['stage' => DealStage::NEW_LEAD]);
     Deal::factory()->recycle([$this->user, $this->user->currentTeam])
-        ->create(['stage' => DealStage::LOST]);
+        ->create(['stage' => DealStage::CLOSED_LOST]);
 
     Order::factory()->count(2)->recycle([$this->user, $this->user->currentTeam])
-        ->create(['stage' => OrderStage::PRODUCTION]);
+        ->create(['stage' => OrderStage::DEVELOPMENT]);
     Order::factory()->recycle([$this->user, $this->user->currentTeam])
-        ->create(['stage' => OrderStage::CLOSED]);
+        ->create(['stage' => OrderStage::PROJECT_COMPLETED]);
 
     $page = Livewire::withQueryParams(['view' => Dashboard::VIEW_DASHBOARD])
         ->test(Dashboard::class)

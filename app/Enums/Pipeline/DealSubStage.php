@@ -8,39 +8,40 @@ use App\Contracts\Pipeline\PipelineSubStage;
 
 enum DealSubStage: string implements PipelineSubStage
 {
-    case ASSIGNED_SALESPERSON = 'assigned_salesperson';
-
-    case QUANTITY_FINALIZED = 'quantity_finalized';
-    case CUSTOMIZATION_FINALIZED = 'customization_finalized';
-
-    case DISCOUNT_REQUESTED = 'discount_requested';
-    case PAYMENT_TERMS = 'payment_terms';
-    case DELIVERY_TERMS = 'delivery_terms';
-
-    case SALES_APPROVAL = 'sales_approval';
-    case FINANCE_APPROVAL = 'finance_approval';
-
-    case PO_EXPECTED = 'po_expected';
-    case VERBAL_CONFIRMATION = 'verbal_confirmation';
-
-    case PO_RECEIVED = 'po_received';
-    case PO_VERIFICATION = 'po_verification';
-
-    case PROFORMA_INVOICE = 'proforma_invoice';
-    case TAX_INVOICE = 'tax_invoice';
-
-    case ADVANCE_PENDING = 'advance_pending';
-    case ADVANCE_RECEIVED = 'advance_received';
-    case FULL_PAYMENT_RECEIVED = 'full_payment_received';
-
-    case BOM_LOCKED = 'bom_locked';
-    case INVENTORY_CHECKED = 'inventory_checked';
-
-    case MOVE_TO_ORDERS = 'move_to_orders';
-
-    case LOST_CANCELLED = 'lost_cancelled';
+    case UNCONTACTED = 'uncontacted';
+    case CONTACT_ATTEMPTED = 'contact_attempted';
+    case CONNECTED = 'connected';
+    case MEETING_REQUESTED = 'meeting_requested';
+    case MEETING_SCHEDULED = 'meeting_scheduled';
+    case NO_RESPONSE = 'no_response';
+    case REQUIREMENT_GATHERING = 'requirement_gathering';
+    case TECHNICAL_DISCOVERY = 'technical_discovery';
+    case BUDGET_DISCOVERY = 'budget_discovery';
+    case TIMELINE_DISCOVERY = 'timeline_discovery';
+    case QUALIFIED = 'qualified';
+    case DECISION_MAKER_IDENTIFIED = 'decision_maker_identified';
+    case BUDGET_CONFIRMED = 'budget_confirmed';
+    case TIMELINE_CONFIRMED = 'timeline_confirmed';
+    case PROPOSAL_DRAFTING = 'proposal_drafting';
+    case PROPOSAL_SENT = 'proposal_sent';
+    case PROPOSAL_VIEWED = 'proposal_viewed';
+    case PROPOSAL_DISCUSSION = 'proposal_discussion';
+    case PRICING_NEGOTIATION = 'pricing_negotiation';
+    case SCOPE_NEGOTIATION = 'scope_negotiation';
+    case TIMELINE_NEGOTIATION = 'timeline_negotiation';
+    case TERMS_AND_CONDITIONS = 'terms_and_conditions';
+    case CLIENT_APPROVED = 'client_approved';
+    case AWAITING_PO_AGREEMENT = 'awaiting_po_agreement';
+    case AWAITING_ADVANCE = 'awaiting_advance';
+    case ADVANCE_PAID = 'advance_paid';
+    case PROJECT_STARTED = 'project_started';
+    case LOST_PRICE = 'lost_price';
     case LOST_COMPETITOR = 'lost_competitor';
-    case LOST_BUDGET = 'lost_budget';
+    case LOST_NO_BUDGET = 'lost_no_budget';
+    case LOST_NO_RESPONSE = 'lost_no_response';
+    case LOST_NOT_A_FIT = 'lost_not_a_fit';
+    case LOST_DELAYED = 'lost_delayed';
+    case LOST_CANCELLED = 'lost_cancelled';
 
     public function getLabel(): string
     {
@@ -50,31 +51,23 @@ enum DealSubStage: string implements PipelineSubStage
     public function stage(): DealStage
     {
         return match ($this) {
-            self::ASSIGNED_SALESPERSON => DealStage::OPPORTUNITY,
-
-            self::QUANTITY_FINALIZED,
-            self::CUSTOMIZATION_FINALIZED => DealStage::SOLUTION_FINALIZED,
-
-            self::DISCOUNT_REQUESTED, self::PAYMENT_TERMS,
-            self::DELIVERY_TERMS => DealStage::COMMERCIAL_DISCUSSION,
-
-            self::SALES_APPROVAL, self::FINANCE_APPROVAL => DealStage::INTERNAL_APPROVAL,
-
-            self::PO_EXPECTED, self::VERBAL_CONFIRMATION => DealStage::PURCHASE_INTENT,
-
-            self::PO_RECEIVED, self::PO_VERIFICATION => DealStage::PURCHASE_ORDER,
-
-            self::PROFORMA_INVOICE, self::TAX_INVOICE => DealStage::INVOICE,
-
-            self::ADVANCE_PENDING, self::ADVANCE_RECEIVED,
-            self::FULL_PAYMENT_RECEIVED => DealStage::PAYMENT,
-
-            self::BOM_LOCKED, self::INVENTORY_CHECKED => DealStage::READY_FOR_PRODUCTION,
-
-            self::MOVE_TO_ORDERS => DealStage::WON,
-
-            self::LOST_CANCELLED, self::LOST_COMPETITOR,
-            self::LOST_BUDGET => DealStage::LOST,
+            self::UNCONTACTED, self::CONTACT_ATTEMPTED => DealStage::NEW_LEAD,
+            self::CONNECTED, self::MEETING_REQUESTED, self::MEETING_SCHEDULED,
+            self::NO_RESPONSE => DealStage::CONTACTED,
+            self::REQUIREMENT_GATHERING, self::TECHNICAL_DISCOVERY,
+            self::BUDGET_DISCOVERY, self::TIMELINE_DISCOVERY => DealStage::DISCOVERY,
+            self::QUALIFIED, self::DECISION_MAKER_IDENTIFIED,
+            self::BUDGET_CONFIRMED, self::TIMELINE_CONFIRMED => DealStage::QUALIFIED,
+            self::PROPOSAL_DRAFTING, self::PROPOSAL_SENT,
+            self::PROPOSAL_VIEWED, self::PROPOSAL_DISCUSSION => DealStage::PROPOSAL,
+            self::PRICING_NEGOTIATION, self::SCOPE_NEGOTIATION,
+            self::TIMELINE_NEGOTIATION, self::TERMS_AND_CONDITIONS => DealStage::NEGOTIATION,
+            self::CLIENT_APPROVED, self::AWAITING_PO_AGREEMENT,
+            self::AWAITING_ADVANCE => DealStage::VERBAL_CONFIRMATION,
+            self::ADVANCE_PAID, self::PROJECT_STARTED => DealStage::CLOSED_WON,
+            self::LOST_PRICE, self::LOST_COMPETITOR, self::LOST_NO_BUDGET,
+            self::LOST_NO_RESPONSE, self::LOST_NOT_A_FIT,
+            self::LOST_DELAYED, self::LOST_CANCELLED => DealStage::CLOSED_LOST,
         };
     }
 }

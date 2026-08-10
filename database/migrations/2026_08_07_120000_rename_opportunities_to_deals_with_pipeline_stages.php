@@ -23,7 +23,7 @@ return new class extends Migration
 
         Schema::table('deals', function (Blueprint $table): void {
             if (! Schema::hasColumn('deals', 'stage')) {
-                $table->string('stage')->default(DealStage::OPPORTUNITY->value)->index();
+                $table->string('stage')->default(DealStage::NEW_LEAD->value)->index();
             }
 
             if (! Schema::hasColumn('deals', 'sub_stage')) {
@@ -76,16 +76,16 @@ return new class extends Migration
         }
 
         $map = [
-            'Prospecting' => DealStage::OPPORTUNITY,
-            'Qualification' => DealStage::OPPORTUNITY,
-            'Needs Analysis' => DealStage::SOLUTION_FINALIZED,
-            'Value Proposition' => DealStage::SOLUTION_FINALIZED,
-            'Id. Decision Makers' => DealStage::COMMERCIAL_DISCUSSION,
-            'Perception Analysis' => DealStage::COMMERCIAL_DISCUSSION,
-            'Proposal/Price Quote' => DealStage::COMMERCIAL_DISCUSSION,
-            'Negotiation/Review' => DealStage::COMMERCIAL_DISCUSSION,
-            'Closed Won' => DealStage::WON,
-            'Closed Lost' => DealStage::LOST,
+            'Prospecting' => DealStage::NEW_LEAD,
+            'Qualification' => DealStage::QUALIFIED,
+            'Needs Analysis' => DealStage::DISCOVERY,
+            'Value Proposition' => DealStage::PROPOSAL,
+            'Id. Decision Makers' => DealStage::QUALIFIED,
+            'Perception Analysis' => DealStage::DISCOVERY,
+            'Proposal/Price Quote' => DealStage::PROPOSAL,
+            'Negotiation/Review' => DealStage::NEGOTIATION,
+            'Closed Won' => DealStage::CLOSED_WON,
+            'Closed Lost' => DealStage::CLOSED_LOST,
         ];
 
         $optionNames = DB::table('custom_field_options')
@@ -98,7 +98,7 @@ return new class extends Migration
 
         foreach ($values as $value) {
             $optionName = $optionNames[$value->string_value] ?? null;
-            $stage = $map[$optionName] ?? DealStage::OPPORTUNITY;
+            $stage = $map[$optionName] ?? DealStage::NEW_LEAD;
 
             DB::table('deals')
                 ->where('id', $value->entity_id)

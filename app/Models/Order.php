@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -43,6 +44,7 @@ use Spatie\EloquentSortable\SortableTrait;
     'stage',
     'sub_stage',
     'order_column',
+    'financially_closed_at',
 ])]
 final class Order extends Model implements HasCustomFields, HasTimeline
 {
@@ -66,7 +68,7 @@ final class Order extends Model implements HasCustomFields, HasTimeline
      */
     protected $attributes = [
         'creation_source' => CreationSource::WEB,
-        'stage' => OrderStage::ORDER_RECEIVED,
+        'stage' => OrderStage::PROJECT_KICKOFF,
     ];
 
     /**
@@ -78,7 +80,14 @@ final class Order extends Model implements HasCustomFields, HasTimeline
             'creation_source' => CreationSource::class,
             'stage' => OrderStage::class,
             'sub_stage' => OrderSubStage::class,
+            'financially_closed_at' => 'datetime',
         ];
+    }
+
+    /** @return HasMany<Invoice, $this> */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
     }
 
     /**

@@ -11,17 +11,15 @@ enum DealStage: string implements PipelineStage
 {
     use ProgressesThroughStages;
 
-    case OPPORTUNITY = 'opportunity';
-    case SOLUTION_FINALIZED = 'solution_finalized';
-    case COMMERCIAL_DISCUSSION = 'commercial_discussion';
-    case INTERNAL_APPROVAL = 'internal_approval';
-    case PURCHASE_INTENT = 'purchase_intent';
-    case PURCHASE_ORDER = 'purchase_order';
-    case INVOICE = 'invoice';
-    case PAYMENT = 'payment';
-    case READY_FOR_PRODUCTION = 'ready_for_production';
-    case WON = 'won';
-    case LOST = 'lost';
+    case NEW_LEAD = 'new_lead';
+    case CONTACTED = 'contacted';
+    case DISCOVERY = 'discovery';
+    case QUALIFIED = 'qualified';
+    case PROPOSAL = 'proposal';
+    case NEGOTIATION = 'negotiation';
+    case VERBAL_CONFIRMATION = 'verbal_confirmation';
+    case CLOSED_WON = 'closed_won';
+    case CLOSED_LOST = 'closed_lost';
 
     public function getLabel(): string
     {
@@ -31,81 +29,34 @@ enum DealStage: string implements PipelineStage
     public function getColor(): string
     {
         return match ($this) {
-            self::OPPORTUNITY => '#a5b4fc',
-            self::SOLUTION_FINALIZED => '#6366f1',
-            self::COMMERCIAL_DISCUSSION => '#7c3aed',
-            self::INTERNAL_APPROVAL => '#9333ea',
-            self::PURCHASE_INTENT => '#0891b2',
-            self::PURCHASE_ORDER => '#0d9488',
-            self::INVOICE => '#eab308',
-            self::PAYMENT => '#f59e0b',
-            self::READY_FOR_PRODUCTION => '#f97316',
-            self::WON => '#059669',
-            self::LOST => '#6b7280',
+            self::NEW_LEAD => '#a5b4fc',
+            self::CONTACTED => '#818cf8',
+            self::DISCOVERY => '#0d9488',
+            self::QUALIFIED => '#0891b2',
+            self::PROPOSAL => '#f59e0b',
+            self::NEGOTIATION => '#f97316',
+            self::VERBAL_CONFIRMATION => '#7c3aed',
+            self::CLOSED_WON => '#059669',
+            self::CLOSED_LOST => '#6b7280',
         };
     }
 
-    /**
-     * @return list<DealSubStage>
-     */
+    /** @return list<DealSubStage> */
     public function subStages(): array
     {
-        return match ($this) {
-            self::OPPORTUNITY => [
-                DealSubStage::ASSIGNED_SALESPERSON,
-            ],
-            self::SOLUTION_FINALIZED => [
-                DealSubStage::QUANTITY_FINALIZED,
-                DealSubStage::CUSTOMIZATION_FINALIZED,
-            ],
-            self::COMMERCIAL_DISCUSSION => [
-                DealSubStage::DISCOUNT_REQUESTED,
-                DealSubStage::PAYMENT_TERMS,
-                DealSubStage::DELIVERY_TERMS,
-            ],
-            self::INTERNAL_APPROVAL => [
-                DealSubStage::SALES_APPROVAL,
-                DealSubStage::FINANCE_APPROVAL,
-            ],
-            self::PURCHASE_INTENT => [
-                DealSubStage::PO_EXPECTED,
-                DealSubStage::VERBAL_CONFIRMATION,
-            ],
-            self::PURCHASE_ORDER => [
-                DealSubStage::PO_RECEIVED,
-                DealSubStage::PO_VERIFICATION,
-            ],
-            self::INVOICE => [
-                DealSubStage::PROFORMA_INVOICE,
-                DealSubStage::TAX_INVOICE,
-            ],
-            self::PAYMENT => [
-                DealSubStage::ADVANCE_PENDING,
-                DealSubStage::ADVANCE_RECEIVED,
-                DealSubStage::FULL_PAYMENT_RECEIVED,
-            ],
-            self::READY_FOR_PRODUCTION => [
-                DealSubStage::BOM_LOCKED,
-                DealSubStage::INVENTORY_CHECKED,
-            ],
-            self::WON => [
-                DealSubStage::MOVE_TO_ORDERS,
-            ],
-            self::LOST => [
-                DealSubStage::LOST_CANCELLED,
-                DealSubStage::LOST_COMPETITOR,
-                DealSubStage::LOST_BUDGET,
-            ],
-        };
+        return array_values(array_filter(
+            DealSubStage::cases(),
+            fn (DealSubStage $subStage): bool => $subStage->stage() === $this,
+        ));
     }
 
     public function isWon(): bool
     {
-        return $this === self::WON;
+        return $this === self::CLOSED_WON;
     }
 
     public function isLost(): bool
     {
-        return $this === self::LOST;
+        return $this === self::CLOSED_LOST;
     }
 }

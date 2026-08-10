@@ -11,17 +11,17 @@ enum OrderStage: string implements PipelineStage
 {
     use ProgressesThroughStages;
 
-    case ORDER_RECEIVED = 'order_received';
-    case INVENTORY = 'inventory';
-    case PRODUCTION = 'production';
-    case PACKAGING = 'packaging';
-    case SHIPPING = 'shipping';
-    case DELIVERED = 'delivered';
-    case INSTALLATION = 'installation';
-    case TRAINING = 'training';
-    case CUSTOMER_SUCCESS = 'customer_success';
-    case CLOSED = 'closed';
-    case REPEAT_OPPORTUNITY = 'repeat_opportunity';
+    case PROJECT_KICKOFF = 'project_kickoff';
+    case REQUIREMENT_FINALIZATION = 'requirement_finalization';
+    case PLANNING_ARCHITECTURE = 'planning_architecture';
+    case DEVELOPMENT = 'development';
+    case INTERNAL_QA = 'internal_qa';
+    case CLIENT_REVIEW_UAT = 'client_review_uat';
+    case REVISIONS = 'revisions';
+    case DEPLOYMENT = 'deployment';
+    case HANDOVER = 'handover';
+    case PROJECT_COMPLETED = 'project_completed';
+    case POST_PROJECT = 'post_project';
 
     public function getLabel(): string
     {
@@ -31,79 +31,32 @@ enum OrderStage: string implements PipelineStage
     public function getColor(): string
     {
         return match ($this) {
-            self::ORDER_RECEIVED => '#a5b4fc',
-            self::INVENTORY => '#6366f1',
-            self::PRODUCTION => '#7c3aed',
-            self::PACKAGING => '#0891b2',
-            self::SHIPPING => '#0d9488',
-            self::DELIVERED => '#16a34a',
-            self::INSTALLATION => '#eab308',
-            self::TRAINING => '#f59e0b',
-            self::CUSTOMER_SUCCESS => '#059669',
-            self::CLOSED => '#64748b',
-            self::REPEAT_OPPORTUNITY => '#db2777',
+            self::PROJECT_KICKOFF => '#a5b4fc',
+            self::REQUIREMENT_FINALIZATION => '#818cf8',
+            self::PLANNING_ARCHITECTURE => '#6366f1',
+            self::DEVELOPMENT => '#7c3aed',
+            self::INTERNAL_QA => '#0891b2',
+            self::CLIENT_REVIEW_UAT => '#0d9488',
+            self::REVISIONS => '#f59e0b',
+            self::DEPLOYMENT => '#f97316',
+            self::HANDOVER => '#16a34a',
+            self::PROJECT_COMPLETED => '#059669',
+            self::POST_PROJECT => '#db2777',
         };
     }
 
-    /**
-     * @return list<OrderSubStage>
-     */
+    /** @return list<OrderSubStage> */
     public function subStages(): array
     {
-        return match ($this) {
-            self::ORDER_RECEIVED => [
-                OrderSubStage::PAYMENT_VERIFIED,
-            ],
-            self::INVENTORY => [
-                OrderSubStage::AVAILABLE,
-                OrderSubStage::MANUFACTURING_REQUIRED,
-            ],
-            self::PRODUCTION => [
-                OrderSubStage::ASSEMBLY,
-                OrderSubStage::TESTING,
-                OrderSubStage::QC,
-            ],
-            self::PACKAGING => [
-                OrderSubStage::PACKED,
-                OrderSubStage::READY_TO_SHIP,
-            ],
-            self::SHIPPING => [
-                OrderSubStage::COURIER_BOOKED,
-                OrderSubStage::IN_TRANSIT,
-            ],
-            self::DELIVERED => [
-                OrderSubStage::DELIVERY_CONFIRMED,
-            ],
-            self::INSTALLATION => [
-                OrderSubStage::INSTALLATION_SCHEDULED,
-                OrderSubStage::INSTALLED,
-            ],
-            self::TRAINING => [
-                OrderSubStage::TRAINING_SCHEDULED,
-                OrderSubStage::TRAINING_COMPLETED,
-            ],
-            self::CUSTOMER_SUCCESS => [
-                OrderSubStage::FIRST_FEEDBACK,
-                OrderSubStage::SUPPORT_ACTIVE,
-            ],
-            self::CLOSED => [
-                OrderSubStage::WARRANTY_ACTIVE,
-            ],
-            self::REPEAT_OPPORTUNITY => [
-                OrderSubStage::UPSELL,
-                OrderSubStage::CROSS_SELL,
-                OrderSubStage::AMC,
-            ],
-        };
+        return array_values(array_filter(
+            OrderSubStage::cases(),
+            fn (OrderSubStage $subStage): bool => $subStage->stage() === $this,
+        ));
     }
 
-    /**
-     * The order pipeline is fulfilment rather than sales: it has no "won" state,
-     * so nothing downstream converts out of it. Closed is its terminal success.
-     */
     public function isWon(): bool
     {
-        return false;
+        return $this === self::PROJECT_COMPLETED;
     }
 
     public function isLost(): bool

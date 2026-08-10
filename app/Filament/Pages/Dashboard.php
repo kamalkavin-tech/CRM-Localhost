@@ -141,15 +141,15 @@ final class Dashboard extends Page
                 ->count(),
             'deals_open' => Deal::query()->withoutGlobalScope(TeamScope::class)
                 ->where('team_id', $teamId)
-                ->whereNotIn('stage', [DealStage::WON->value, DealStage::LOST->value])
+                ->whereNotIn('stage', [DealStage::CLOSED_WON->value, DealStage::CLOSED_LOST->value])
                 ->count(),
             'deals_won' => Deal::query()->withoutGlobalScope(TeamScope::class)
                 ->where('team_id', $teamId)
-                ->where('stage', DealStage::WON->value)
+                ->where('stage', DealStage::CLOSED_WON->value)
                 ->count(),
             'orders_active' => Order::query()->withoutGlobalScope(TeamScope::class)
                 ->where('team_id', $teamId)
-                ->where('stage', '!=', OrderStage::CLOSED->value)
+                ->where('stage', '!=', OrderStage::PROJECT_COMPLETED->value)
                 ->count(),
             // Deal amounts come from the shared AggregateDeals total (so the
             // dashboard cannot drift from the chat/MCP figures); order values are
@@ -207,8 +207,8 @@ final class Dashboard extends Page
 
         $steps = [
             ['label' => __('filament/pages/dashboard.funnel.leads'), 'count' => $leads, 'color' => LeadStage::QUALIFIED->getColor(), 'url' => LeadResource::getUrl('board')],
-            ['label' => __('filament/pages/dashboard.funnel.deals'), 'count' => $deals, 'color' => DealStage::PAYMENT->getColor(), 'url' => DealResource::getUrl('board')],
-            ['label' => __('filament/pages/dashboard.funnel.orders'), 'count' => $orders, 'color' => OrderStage::DELIVERED->getColor(), 'url' => OrderResource::getUrl('board')],
+            ['label' => __('filament/pages/dashboard.funnel.deals'), 'count' => $deals, 'color' => DealStage::VERBAL_CONFIRMATION->getColor(), 'url' => DealResource::getUrl('board')],
+            ['label' => __('filament/pages/dashboard.funnel.orders'), 'count' => $orders, 'color' => OrderStage::DEPLOYMENT->getColor(), 'url' => OrderResource::getUrl('board')],
         ];
 
         $widest = max(1, $leads, $deals, $orders);

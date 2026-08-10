@@ -21,7 +21,9 @@ use App\Models\CustomFieldOption;
 use App\Models\CustomFieldSection;
 use App\Models\CustomFieldValue;
 use App\Models\Deal;
+use App\Models\Expense;
 use App\Models\Export;
+use App\Models\Invoice;
 use App\Models\Lead;
 use App\Models\Note;
 use App\Models\Order;
@@ -337,6 +339,8 @@ final class AppServiceProvider extends ServiceProvider
             'lead' => Lead::class,
             'deal' => Deal::class,
             'order' => Order::class,
+            'invoice' => Invoice::class,
+            'expense' => Expense::class,
             'task' => Task::class,
             'note' => Note::class,
             'system_administrator' => SystemAdministrator::class,

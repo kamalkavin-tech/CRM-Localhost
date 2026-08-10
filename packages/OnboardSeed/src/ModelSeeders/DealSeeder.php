@@ -69,7 +69,7 @@ final class DealSeeder extends BaseModelSeeder
         $attributes = [
             'name' => $data['name'],
             'company_id' => $company->id,
-            'stage' => $stage ?? DealStage::OPPORTUNITY,
+            'stage' => $stage ?? DealStage::NEW_LEAD,
         ];
 
         $customFields = $data['custom_fields'] ?? [];

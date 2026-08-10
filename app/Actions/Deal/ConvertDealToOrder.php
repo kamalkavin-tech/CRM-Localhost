@@ -8,6 +8,7 @@ use App\Enums\CreationSource;
 use App\Enums\Pipeline\DealStage;
 use App\Enums\Pipeline\DealSubStage;
 use App\Enums\Pipeline\OrderStage;
+use App\Enums\Pipeline\OrderSubStage;
 use App\Models\Deal;
 use App\Models\Order;
 use App\Models\User;
@@ -41,12 +42,13 @@ final readonly class ConvertDealToOrder
                 'company_id' => $deal->company_id,
                 'contact_id' => $deal->contact_id,
                 'name' => $deal->name,
-                'stage' => OrderStage::ORDER_RECEIVED,
+                'stage' => OrderStage::PROJECT_KICKOFF,
+                'sub_stage' => OrderSubStage::ADVANCE_CONFIRMED,
                 'creation_source' => CreationSource::WEB,
             ]);
 
-            $deal->stage = DealStage::WON;
-            $deal->sub_stage = DealSubStage::MOVE_TO_ORDERS;
+            $deal->stage = DealStage::CLOSED_WON;
+            $deal->sub_stage = DealSubStage::PROJECT_STARTED;
             $deal->save();
 
             return $order;

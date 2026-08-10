@@ -44,8 +44,8 @@ it('converts a lead into a deal, carrying company and contact across', function 
         ->and($deal->contact_id)->toBe($contact->getKey())
         ->and($deal->team_id)->toBe($this->team->getKey())
         ->and($deal->lead_id)->toBe($lead->getKey())
-        ->and($deal->stage)->toBe(DealStage::OPPORTUNITY)
-        ->and($deal->sub_stage)->toBe(DealSubStage::ASSIGNED_SALESPERSON);
+        ->and($deal->stage)->toBe(DealStage::NEW_LEAD)
+        ->and($deal->sub_stage)->toBe(DealSubStage::UNCONTACTED);
 
     // The lead survives and records the handover.
     $lead->refresh();
@@ -73,7 +73,7 @@ it('converts a deal into an order at the top of the fulfilment pipeline', functi
     $deal = Deal::factory()->recycle([$this->user, $this->team])->create([
         'name' => 'Acme robotics line',
         'company_id' => $company->getKey(),
-        'stage' => DealStage::PAYMENT,
+        'stage' => DealStage::VERBAL_CONFIRMATION,
     ]);
 
     $order = app(ConvertDealToOrder::class)->execute($this->user, $deal);
@@ -81,12 +81,12 @@ it('converts a deal into an order at the top of the fulfilment pipeline', functi
     expect($order->name)->toBe('Acme robotics line')
         ->and($order->company_id)->toBe($company->getKey())
         ->and($order->deal_id)->toBe($deal->getKey())
-        ->and($order->stage)->toBe(OrderStage::ORDER_RECEIVED);
+        ->and($order->stage)->toBe(OrderStage::PROJECT_KICKOFF);
 
     $deal->refresh();
 
-    expect($deal->stage)->toBe(DealStage::WON)
-        ->and($deal->sub_stage)->toBe(DealSubStage::MOVE_TO_ORDERS)
+    expect($deal->stage)->toBe(DealStage::CLOSED_WON)
+        ->and($deal->sub_stage)->toBe(DealSubStage::PROJECT_STARTED)
         ->and($order->deal->getKey())->toBe($deal->getKey());
 });
 

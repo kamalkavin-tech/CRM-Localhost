@@ -38,7 +38,7 @@ final class BackfillPipelineConversionsCommand extends Command
             ->get();
 
         $deals = Deal::query()->withoutGlobalScopes()
-            ->where('stage', DealStage::WON->value)
+            ->where('stage', DealStage::CLOSED_WON->value)
             ->whereNotExists(fn (Builder $query): Builder => $query->selectRaw('1')->from('orders')
                 ->whereColumn('orders.deal_id', 'deals.id')
                 ->whereNull('orders.deleted_at'))

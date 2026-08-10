@@ -43,7 +43,7 @@ return new class extends Migration
             $table->foreignUlid('contact_id')->nullable()->constrained('people')->nullOnDelete();
             $table->foreignUlid('deal_id')->nullable()->constrained('deals')->nullOnDelete();
             $table->string('name');
-            $table->string('stage')->default(OrderStage::ORDER_RECEIVED->value)->index();
+            $table->string('stage')->default(OrderStage::PROJECT_KICKOFF->value)->index();
             $table->string('sub_stage')->nullable();
             $table->string('creation_source')->default(CreationSource::WEB->value);
             $table->double('order_column')->nullable();

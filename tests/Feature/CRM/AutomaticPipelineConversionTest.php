@@ -31,22 +31,22 @@ it('creates the deal as soon as a lead reaches Won, with no explicit convert cal
     $deal = Deal::query()->where('lead_id', $lead->getKey())->first();
 
     expect($deal)->not->toBeNull()
-        ->and($deal->stage)->toBe(DealStage::OPPORTUNITY)
+        ->and($deal->stage)->toBe(DealStage::NEW_LEAD)
         ->and($deal->name)->toBe($lead->name)
         ->and($deal->team_id)->toBe($lead->team_id);
 });
 
 it('raises the order as soon as a deal reaches Won', function (): void {
     $deal = Deal::factory()->recycle([$this->user, $this->team])
-        ->create(['stage' => DealStage::PAYMENT]);
+        ->create(['stage' => DealStage::VERBAL_CONFIRMATION]);
 
-    $deal->stage = DealStage::WON;
+    $deal->stage = DealStage::CLOSED_WON;
     $deal->save();
 
     $order = Order::query()->where('deal_id', $deal->getKey())->first();
 
     expect($order)->not->toBeNull()
-        ->and($order->stage)->toBe(OrderStage::ORDER_RECEIVED)
+        ->and($order->stage)->toBe(OrderStage::PROJECT_KICKOFF)
         ->and($order->name)->toBe($deal->name);
 });
 
@@ -94,12 +94,12 @@ it('walks the whole funnel from a new lead to an order on stage changes alone', 
 
     $deal = Deal::query()->where('lead_id', $lead->getKey())->firstOrFail();
 
-    $deal->stage = DealStage::WON;
+    $deal->stage = DealStage::CLOSED_WON;
     $deal->save();
 
     $order = Order::query()->where('deal_id', $deal->getKey())->firstOrFail();
 
     expect($order->deal->lead_id)->toBe($lead->getKey())
         ->and($lead->fresh()->stage)->toBe(LeadStage::WON)
-        ->and($deal->fresh()->stage)->toBe(DealStage::WON);
+        ->and($deal->fresh()->stage)->toBe(DealStage::CLOSED_WON);
 });

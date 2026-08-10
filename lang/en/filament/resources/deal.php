@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 return [
     // Lowercase singular/plural so Filament's "New :label" button reads naturally.
-    'label' => 'deal',
-    'plural_label' => 'deals',
-    'navigation_label' => 'Deals',
+    'label' => 'sales opportunity',
+    'plural_label' => 'sales opportunities',
+    'navigation_label' => 'Sales Pipeline',
 
     'fields' => [
         'name' => [
-            'label' => 'Deal',
-            'placeholder' => 'Enter deal title',
+            'label' => 'Opportunity',
+            'placeholder' => 'Enter opportunity title',
         ],
         'company_id' => [
             'label' => 'Company',
@@ -40,7 +40,7 @@ return [
         'list' => [
             'actions' => [
                 'import' => [
-                    'label' => 'Import deals',
+                    'label' => 'Import sales opportunities',
                 ],
                 'import_export' => [
                     'label' => 'Import / Export',

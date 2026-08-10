@@ -8,37 +8,49 @@ use App\Contracts\Pipeline\PipelineSubStage;
 
 enum OrderSubStage: string implements PipelineSubStage
 {
-    case PAYMENT_VERIFIED = 'payment_verified';
-
-    case AVAILABLE = 'available';
-    case MANUFACTURING_REQUIRED = 'manufacturing_required';
-
-    case ASSEMBLY = 'assembly';
+    case ADVANCE_CONFIRMED = 'advance_confirmed';
+    case CONTRACT_SIGNED = 'contract_signed';
+    case TEAM_ASSIGNED = 'team_assigned';
+    case KICKOFF_MEETING = 'kickoff_meeting';
+    case REQUIREMENTS_GATHERING = 'requirements_gathering';
+    case REQUIREMENTS_APPROVED = 'requirements_approved';
+    case SCOPE_LOCKED = 'scope_locked';
+    case TECH_STACK = 'tech_stack';
+    case ARCHITECTURE = 'architecture';
+    case WIREFRAMES = 'wireframes';
+    case PROJECT_PLAN = 'project_plan';
+    case SPRINT_PLANNING = 'sprint_planning';
+    case DEVELOPMENT_STARTED = 'development_started';
+    case SPRINT_1 = 'sprint_1';
+    case SPRINT_2 = 'sprint_2';
+    case SPRINT_3 = 'sprint_3';
+    case FEATURE_DEVELOPMENT = 'feature_development';
     case TESTING = 'testing';
-    case QC = 'qc';
-
-    case PACKED = 'packed';
-    case READY_TO_SHIP = 'ready_to_ship';
-
-    case COURIER_BOOKED = 'courier_booked';
-    case IN_TRANSIT = 'in_transit';
-
-    case DELIVERY_CONFIRMED = 'delivery_confirmed';
-
-    case INSTALLATION_SCHEDULED = 'installation_scheduled';
-    case INSTALLED = 'installed';
-
-    case TRAINING_SCHEDULED = 'training_scheduled';
-    case TRAINING_COMPLETED = 'training_completed';
-
-    case FIRST_FEEDBACK = 'first_feedback';
-    case SUPPORT_ACTIVE = 'support_active';
-
-    case WARRANTY_ACTIVE = 'warranty_active';
-
-    case UPSELL = 'upsell';
-    case CROSS_SELL = 'cross_sell';
+    case BUG_FIXING = 'bug_fixing';
+    case REGRESSION_TESTING = 'regression_testing';
+    case INTERNAL_APPROVAL = 'internal_approval';
+    case DEMO_SCHEDULED = 'demo_scheduled';
+    case CLIENT_TESTING = 'client_testing';
+    case FEEDBACK_RECEIVED = 'feedback_received';
+    case UAT = 'uat';
+    case CHANGES_REQUESTED = 'changes_requested';
+    case CHANGES_IN_PROGRESS = 'changes_in_progress';
+    case CHANGES_COMPLETED = 'changes_completed';
+    case STAGING = 'staging';
+    case PRODUCTION_DEPLOYMENT = 'production_deployment';
+    case DOMAIN_SERVER_SETUP = 'domain_server_setup';
+    case PRODUCTION_VERIFICATION = 'production_verification';
+    case DOCUMENTATION = 'documentation';
+    case TRAINING = 'training';
+    case CREDENTIALS_HANDOVER = 'credentials_handover';
+    case SOURCE_CODE_HANDOVER = 'source_code_handover';
+    case FINAL_APPROVAL = 'final_approval';
+    case FINAL_INVOICE = 'final_invoice';
+    case PROJECT_CLOSED = 'project_closed';
+    case WARRANTY = 'warranty';
     case AMC = 'amc';
+    case SUPPORT = 'support';
+    case UPSELL_RENEWAL = 'upsell_renewal';
 
     public function getLabel(): string
     {
@@ -48,27 +60,28 @@ enum OrderSubStage: string implements PipelineSubStage
     public function stage(): OrderStage
     {
         return match ($this) {
-            self::PAYMENT_VERIFIED => OrderStage::ORDER_RECEIVED,
-
-            self::AVAILABLE, self::MANUFACTURING_REQUIRED => OrderStage::INVENTORY,
-
-            self::ASSEMBLY, self::TESTING, self::QC => OrderStage::PRODUCTION,
-
-            self::PACKED, self::READY_TO_SHIP => OrderStage::PACKAGING,
-
-            self::COURIER_BOOKED, self::IN_TRANSIT => OrderStage::SHIPPING,
-
-            self::DELIVERY_CONFIRMED => OrderStage::DELIVERED,
-
-            self::INSTALLATION_SCHEDULED, self::INSTALLED => OrderStage::INSTALLATION,
-
-            self::TRAINING_SCHEDULED, self::TRAINING_COMPLETED => OrderStage::TRAINING,
-
-            self::FIRST_FEEDBACK, self::SUPPORT_ACTIVE => OrderStage::CUSTOMER_SUCCESS,
-
-            self::WARRANTY_ACTIVE => OrderStage::CLOSED,
-
-            self::UPSELL, self::CROSS_SELL, self::AMC => OrderStage::REPEAT_OPPORTUNITY,
+            self::ADVANCE_CONFIRMED, self::CONTRACT_SIGNED,
+            self::TEAM_ASSIGNED, self::KICKOFF_MEETING => OrderStage::PROJECT_KICKOFF,
+            self::REQUIREMENTS_GATHERING, self::REQUIREMENTS_APPROVED,
+            self::SCOPE_LOCKED => OrderStage::REQUIREMENT_FINALIZATION,
+            self::TECH_STACK, self::ARCHITECTURE, self::WIREFRAMES,
+            self::PROJECT_PLAN, self::SPRINT_PLANNING => OrderStage::PLANNING_ARCHITECTURE,
+            self::DEVELOPMENT_STARTED, self::SPRINT_1, self::SPRINT_2,
+            self::SPRINT_3, self::FEATURE_DEVELOPMENT => OrderStage::DEVELOPMENT,
+            self::TESTING, self::BUG_FIXING, self::REGRESSION_TESTING,
+            self::INTERNAL_APPROVAL => OrderStage::INTERNAL_QA,
+            self::DEMO_SCHEDULED, self::CLIENT_TESTING,
+            self::FEEDBACK_RECEIVED, self::UAT => OrderStage::CLIENT_REVIEW_UAT,
+            self::CHANGES_REQUESTED, self::CHANGES_IN_PROGRESS,
+            self::CHANGES_COMPLETED => OrderStage::REVISIONS,
+            self::STAGING, self::PRODUCTION_DEPLOYMENT, self::DOMAIN_SERVER_SETUP,
+            self::PRODUCTION_VERIFICATION => OrderStage::DEPLOYMENT,
+            self::DOCUMENTATION, self::TRAINING, self::CREDENTIALS_HANDOVER,
+            self::SOURCE_CODE_HANDOVER => OrderStage::HANDOVER,
+            self::FINAL_APPROVAL, self::FINAL_INVOICE,
+            self::PROJECT_CLOSED => OrderStage::PROJECT_COMPLETED,
+            self::WARRANTY, self::AMC, self::SUPPORT,
+            self::UPSELL_RENEWAL => OrderStage::POST_PROJECT,
         };
     }
 }

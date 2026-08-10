@@ -33,8 +33,10 @@ it('accepts every sub-stage of :dataset and rejects one from another stage', fun
         $deal->sub_stage = $own;
         $deal->save();
 
+        $expected = $stage->isWon() ? DealSubStage::PROJECT_STARTED : $own;
+
         expect($deal->fresh()->sub_stage)
-            ->toBe($own, "{$own->value} should be valid for {$stage->value}");
+            ->toBe($expected, "{$own->value} should be valid for {$stage->value}");
     }
 
     $deal = Deal::factory()->recycle([$this->user, $this->team])->create();
@@ -54,46 +56,46 @@ it('accepts every sub-stage of :dataset and rejects one from another stage', fun
 
 it('clears the sub-stage when the stage changes in the form', function (): void {
     $deal = Deal::factory()->recycle([$this->user, $this->team])->create([
-        'stage' => DealStage::PURCHASE_ORDER,
-        'sub_stage' => DealSubStage::PO_RECEIVED,
+        'stage' => DealStage::VERBAL_CONFIRMATION,
+        'sub_stage' => DealSubStage::CLIENT_APPROVED,
     ]);
 
     livewire(ListDeals::class)
         ->mountAction(TestAction::make('edit')->table($deal))
         ->assertSchemaStateSet([
-            'stage' => DealStage::PURCHASE_ORDER->value,
-            'sub_stage' => DealSubStage::PO_RECEIVED->value,
+            'stage' => DealStage::VERBAL_CONFIRMATION->value,
+            'sub_stage' => DealSubStage::CLIENT_APPROVED->value,
         ])
-        ->fillForm(['stage' => DealStage::INVOICE->value])
+        ->fillForm(['stage' => DealStage::PROPOSAL->value])
         ->assertSchemaStateSet(['sub_stage' => null]);
 });
 
 it('persists a valid stage and sub-stage pair', function (): void {
     $deal = Deal::factory()->recycle([$this->user, $this->team])
-        ->create(['stage' => DealStage::OPPORTUNITY]);
+        ->create(['stage' => DealStage::NEW_LEAD]);
 
     livewire(ListDeals::class)
         ->callAction(TestAction::make('edit')->table($deal), [
             'name' => $deal->name,
-            'stage' => DealStage::READY_FOR_PRODUCTION->value,
-            'sub_stage' => DealSubStage::BOM_LOCKED->value,
+            'stage' => DealStage::NEGOTIATION->value,
+            'sub_stage' => DealSubStage::PRICING_NEGOTIATION->value,
         ])
         ->assertHasNoActionErrors();
 
     $deal->refresh();
 
-    expect($deal->stage)->toBe(DealStage::READY_FOR_PRODUCTION)
-        ->and($deal->sub_stage)->toBe(DealSubStage::BOM_LOCKED);
+    expect($deal->stage)->toBe(DealStage::NEGOTIATION)
+        ->and($deal->sub_stage)->toBe(DealSubStage::PRICING_NEGOTIATION);
 });
 
 it('refuses to persist a sub-stage from a different stage', function (): void {
     $deal = Deal::factory()->recycle([$this->user, $this->team])
-        ->create(['stage' => DealStage::OPPORTUNITY]);
+        ->create(['stage' => DealStage::NEW_LEAD]);
 
     // QC belongs to the Order pipeline's Production stage, so it is not a valid
     // pairing for any deal stage and must not survive the write.
-    $deal->stage = DealStage::INVOICE;
-    $deal->sub_stage = DealSubStage::BOM_LOCKED;
+    $deal->stage = DealStage::PROPOSAL;
+    $deal->sub_stage = DealSubStage::PRICING_NEGOTIATION;
     $deal->save();
 
     expect($deal->fresh()->sub_stage)->toBeNull();
