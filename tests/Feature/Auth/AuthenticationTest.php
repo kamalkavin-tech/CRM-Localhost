@@ -10,7 +10,9 @@ mutates(Login::class);
 test('login screen can be rendered', function () {
     $response = $this->get(url()->getAppUrl('login'));
 
-    $response->assertStatus(200);
+    $response
+        ->assertStatus(200)
+        ->assertSee('fi-localhost-login', false);
 });
 
 test('users can authenticate using the login screen', function () {

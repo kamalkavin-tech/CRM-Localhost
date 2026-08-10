@@ -397,6 +397,147 @@
     @apply rounded-xl;
 }
 
+/* Localhost login — styled from the welocalhost.com visual language. */
+.fi-localhost-login {
+    --login-canvas: #f6f4fa;
+    --login-grid: rgb(29 21 47 / 0.055);
+    --login-glow: rgb(124 58 237 / 0.22);
+    --login-card: rgb(255 255 255 / 0.82);
+    --login-card-border: rgb(29 21 47 / 0.1);
+    --login-card-shadow: 0 2rem 5rem rgb(45 25 80 / 0.14);
+    --login-input: rgb(255 255 255 / 0.76);
+    --login-input-border: rgb(29 21 47 / 0.12);
+
+    position: relative;
+    isolation: isolate;
+    overflow-x: hidden;
+    background-color: var(--login-canvas);
+    background-image:
+        linear-gradient(var(--login-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--login-grid) 1px, transparent 1px);
+    background-size: 3.5rem 3.5rem;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+    &::before,
+    &::after {
+        position: fixed;
+        z-index: -1;
+        border-radius: 9999px;
+        content: "";
+        pointer-events: none;
+        filter: blur(1px);
+    }
+
+    &::before {
+        top: -16rem;
+        left: 50%;
+        width: 42rem;
+        height: 42rem;
+        background: radial-gradient(circle, var(--login-glow), transparent 68%);
+        transform: translateX(-50%);
+    }
+
+    &::after {
+        right: -12rem;
+        bottom: -16rem;
+        width: 32rem;
+        height: 32rem;
+        background: radial-gradient(circle, rgb(168 85 247 / 0.13), transparent 70%);
+    }
+
+    .fi-simple-layout {
+        min-height: 100svh;
+        background: transparent;
+    }
+
+    .fi-simple-main-ctn {
+        @apply px-5 py-10 sm:px-8;
+    }
+
+    .fi-simple-main {
+        width: 100%;
+        max-width: 29rem;
+        padding: 2.25rem;
+        overflow: hidden;
+        border: 1px solid var(--login-card-border);
+        border-radius: 1.75rem;
+        background: var(--login-card);
+        box-shadow: var(--login-card-shadow);
+        backdrop-filter: blur(24px);
+    }
+
+    .fi-simple-header {
+        @apply gap-y-5;
+    }
+
+    .fi-logo {
+        @apply mx-auto rounded-2xl;
+        filter: drop-shadow(0 0.75rem 1.5rem rgb(93 50 160 / 0.2));
+    }
+
+    .fi-simple-header-heading {
+        @apply text-3xl font-semibold tracking-[-0.04em];
+        font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .fi-simple-header-subheading {
+        @apply text-sm leading-6 text-gray-500 dark:text-gray-400;
+    }
+
+    .fi-input-wrp {
+        border-color: var(--login-input-border);
+        border-radius: 0.9rem;
+        background: var(--login-input);
+        box-shadow: none;
+        transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+
+        &:focus-within {
+            border-color: rgb(124 58 237 / 0.55);
+            box-shadow: 0 0 0 0.22rem rgb(124 58 237 / 0.12);
+        }
+    }
+
+    .fi-input {
+        min-height: 3rem;
+    }
+
+    .fi-form-actions .fi-btn,
+    form > .fi-sc:last-child .fi-btn {
+        min-height: 3rem;
+        border-radius: 0.9rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        box-shadow: 0 0.9rem 2rem rgb(91 33 182 / 0.22);
+    }
+
+}
+
+.dark .fi-localhost-login {
+    --login-canvas: #070708;
+    --login-grid: rgb(255 255 255 / 0.035);
+    --login-glow: rgb(124 58 237 / 0.34);
+    --login-card: rgb(15 15 18 / 0.86);
+    --login-card-border: rgb(255 255 255 / 0.09);
+    --login-card-shadow: 0 2rem 6rem rgb(0 0 0 / 0.5);
+    --login-input: rgb(255 255 255 / 0.045);
+    --login-input-border: rgb(255 255 255 / 0.09);
+}
+
+@media (max-width: 639px) {
+    .fi-localhost-login {
+        background-size: 2.75rem 2.75rem;
+
+        .fi-simple-main-ctn {
+            @apply px-4 py-6;
+        }
+
+        .fi-simple-main {
+            padding: 1.5rem;
+            border-radius: 1.4rem;
+        }
+    }
+}
+
 /* Layout Components */
 .fi-layout-component {
     @apply rounded-xl;

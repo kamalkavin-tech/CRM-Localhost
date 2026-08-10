@@ -16,6 +16,11 @@ final class Login extends \Filament\Auth\Pages\Login
 {
     use DetectsTeamInvitation;
 
+    /** @var array<string, string> */
+    protected array $extraBodyAttributes = [
+        'class' => 'fi-localhost-login',
+    ];
+
     public function content(Schema $schema): Schema
     {
         return $schema
