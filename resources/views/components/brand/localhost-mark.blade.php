@@ -18,10 +18,10 @@
 
 @php
     $sizeMap = [
-        'xs' => 'h-5 w-5',
-        'sm' => 'h-6 w-6',
-        'md' => 'h-8 w-8',
-        'lg' => 'h-10 w-10',
+        'xs' => 'h-5 w-[5.5rem]',
+        'sm' => 'h-6 w-[6.625rem]',
+        'md' => 'h-8 w-[8.875rem]',
+        'lg' => 'h-10 w-44',
     ];
     $sizeClass = $sizeMap[$size] ?? $sizeMap['md'];
 @endphp
@@ -29,7 +29,7 @@
 <span
     role="img"
     aria-label="{{ config('app.name') }}"
-    {{ $attributes->class("inline-flex flex-shrink-0 items-center justify-center {$sizeClass}") }}
+    {{ $attributes->class("inline-flex max-w-full flex-shrink-0 items-center justify-center {$sizeClass}") }}
 >
     <img
         src="{{ asset('images/localhost-mark.png') }}"

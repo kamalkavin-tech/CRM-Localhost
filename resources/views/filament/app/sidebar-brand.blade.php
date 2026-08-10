@@ -28,9 +28,5 @@
         aria-label="{{ config('app.name') }}"
     >
         <x-brand.localhost-mark size="md" />
-
-        <span x-show="$store.sidebar.isOpen" x-cloak class="fi-sidebar-brand-name">
-            Localhost
-        </span>
     </a>
 @endif

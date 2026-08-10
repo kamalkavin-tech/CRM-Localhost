@@ -12,16 +12,9 @@
 
 @php
     $markSizes = ['sm' => 'sm', 'md' => 'md', 'lg' => 'lg'];
-    $textSizes = ['sm' => 'text-base', 'md' => 'text-lg', 'lg' => 'text-xl'];
-
     $markSize = $markSizes[$size] ?? $markSizes['md'];
-    $textSize = $textSizes[$size] ?? $textSizes['md'];
 @endphp
 
 <span {{ $attributes->class('inline-flex items-center gap-2') }}>
     <x-brand.localhost-mark :size="$markSize" />
-
-    @if ($showWordmark)
-        <span class="{{ $textSize }} font-semibold tracking-tight">Localhost</span>
-    @endif
 </span>

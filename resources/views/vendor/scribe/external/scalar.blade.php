@@ -86,7 +86,7 @@
 <nav class="relaticle-nav">
     <div class="relaticle-nav-left">
         <a href="/" aria-label="Localhost Home">
-            <img src="/images/localhost-mark.png" alt="Localhost" style="height:1.25rem;width:1.25rem;"/>
+            <img src="/images/localhost-mark.png" alt="Localhost" style="height:1.25rem;width:auto;max-width:5.5rem;"/>
         </a>
         <div class="relaticle-nav-sep"></div>
         <span class="relaticle-nav-title">API Reference</span>
