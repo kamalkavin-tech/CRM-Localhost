@@ -15,7 +15,7 @@
 # One image, built once and reused: identical context and args mean the four
 # PHP services share the tag and the build cache.
 x-image: &image
-  image: ${DOCKER_IMAGE:-localhost-crm:latest}
+  image: localhost-crm:${DOCKER_IMAGE_TAG:-latest}
   build:
     context: .
     target: production
