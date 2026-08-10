@@ -27,6 +27,6 @@
         class="fi-sidebar-brand"
         aria-label="{{ config('app.name') }}"
     >
-        <x-brand.localhost-mark size="md" />
+        <x-brand.localhost-mark size="md" class="fi-sidebar-brand-logo" />
     </a>
 @endif
