@@ -30,6 +30,6 @@ final class TeamDeletionCancelledNotification extends Notification implements Sh
             ->subject("{$this->team->name} deletion has been cancelled")
             ->line("The scheduled deletion of {$this->team->name} has been cancelled.")
             ->line('The team and all its data are safe. No further action is needed.')
-            ->salutation('Thank you for using Qbitio.');
+            ->salutation('Thank you for using Localhost.');
     }
 }

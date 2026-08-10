@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Qbitio API</title>
+    <title>Localhost API</title>
     <meta charset="utf-8"/>
     <meta
         name="viewport"
@@ -85,8 +85,8 @@
 
 <nav class="relaticle-nav">
     <div class="relaticle-nav-left">
-        <a href="/" aria-label="Qbitio Home">
-            <img src="/images/qbitio-mark.png" alt="Qbitio" style="height:1.25rem;width:1.25rem;"/>
+        <a href="/" aria-label="Localhost Home">
+            <img src="/images/localhost-mark.png" alt="Localhost" style="height:1.25rem;width:1.25rem;"/>
         </a>
         <div class="relaticle-nav-sep"></div>
         <span class="relaticle-nav-title">API Reference</span>

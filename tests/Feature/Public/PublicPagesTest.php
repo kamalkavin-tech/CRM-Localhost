@@ -44,7 +44,7 @@ describe('Legal pages', function () {
 
         $response->assertStatus(200);
         $response->assertSee('Terms of Service');
-        $response->assertSee('Qbitio');
+        $response->assertSee('Localhost');
         $response->assertDontSee('word usage');
         $response->assertDontSee('Basic" plan');
     });
@@ -54,7 +54,7 @@ describe('Legal pages', function () {
 
         $response->assertStatus(200);
         $response->assertSee('Privacy Policy');
-        $response->assertSee('Qbitio');
+        $response->assertSee('Localhost');
         $response->assertDontSee('registered mail');
     });
 });

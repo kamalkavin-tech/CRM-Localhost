@@ -2,7 +2,7 @@
 #
 # Differs from compose.yml in three ways that matter:
 #   1. It BUILDS this repository instead of pulling ghcr.io/relaticle/relaticle,
-#      so the Qbitio customisations are actually in the running image.
+#      so the Localhost customisations are actually in the running image.
 #   2. It adds the Reverb websocket server, which compose.yml omits — the chat
 #      assistant streams over it.
 #   3. It uses `expose` and joins dokploy-network, so Traefik routes to it and
@@ -15,13 +15,13 @@
 # One image, built once and reused: identical context and args mean the four
 # PHP services share the tag and the build cache.
 x-image: &image
-  image: ${DOCKER_IMAGE:-qbitio-crm:latest}
+  image: ${DOCKER_IMAGE:-localhost-crm:latest}
   build:
     context: .
     target: production
     args:
       # Baked into the JS bundle — see the Dockerfile's frontend stage.
-      VITE_APP_NAME: ${APP_NAME:-Qbitio CRM}
+      VITE_APP_NAME: ${APP_NAME:-Localhost CRM}
       VITE_REVERB_APP_KEY: ${REVERB_APP_KEY:?REVERB_APP_KEY is required}
       VITE_REVERB_HOST: ${REVERB_HOST:?REVERB_HOST is required}
       VITE_REVERB_PORT: ${REVERB_PORT:-443}

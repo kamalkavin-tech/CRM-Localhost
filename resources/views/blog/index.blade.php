@@ -4,9 +4,9 @@
         ? $headingContext.' - '.config('app.name').' Blog'
         : config('app.name').' - Engineering Blog';
     $description = match (true) {
-        isset($category) => 'Posts about '.$category->name.' from the Qbitio engineering team.',
-        isset($tag) => 'Posts tagged "'.$tag->name.'" from the Qbitio engineering team.',
-        default => 'Engineering blog from the Qbitio team. Deep dives into building an open-source CRM with MCP, AI agents, and modern Laravel.',
+        isset($category) => 'Posts about '.$category->name.' from the Localhost engineering team.',
+        isset($tag) => 'Posts tagged "'.$tag->name.'" from the Localhost engineering team.',
+        default => 'Engineering blog from the Localhost team. Deep dives into building an open-source CRM with MCP, AI agents, and modern Laravel.',
     };
 
     // Listings paginate, so page 2+ must self-canonicalise or a post reachable only

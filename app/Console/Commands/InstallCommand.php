@@ -20,7 +20,7 @@ use function Laravel\Prompts\spin;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\warning;
 
-#[Description('Install and configure Qbitio')]
+#[Description('Install and configure Localhost')]
 #[Signature('relaticle:install
                             {--force : Force installation even if already configured}
                             {--env-file= : Custom path to .env file (for testing)}')]
@@ -52,7 +52,7 @@ final class InstallCommand extends Command
     private function shouldProceed(): bool
     {
         if (! $this->option('force') && $this->isAlreadyInstalled()) {
-            warning('Qbitio appears to be already installed.');
+            warning('Localhost appears to be already installed.');
 
             return confirm(
                 label: 'Do you want to continue anyway?',
@@ -74,7 +74,7 @@ final class InstallCommand extends Command
     /** @return array<string, mixed> */
     private function getConfiguration(): array
     {
-        $this->info('Let\'s configure your Qbitio installation...');
+        $this->info('Let\'s configure your Localhost installation...');
 
         $database = select(
             label: 'Which database would you like to use?',
@@ -415,7 +415,7 @@ final class InstallCommand extends Command
     {
         $this->newLine();
 
-        $this->info('🎉 Qbitio installed successfully!');
+        $this->info('🎉 Localhost installed successfully!');
 
         $this->newLine();
         $this->line('  <options=bold>Start all development services:</>');

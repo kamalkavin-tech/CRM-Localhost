@@ -102,7 +102,7 @@ final class AppPanelProvider extends PanelProvider
 
         $panel
             ->homeUrl(fn (): string => Dashboard::getUrl())
-            ->brandName('Qbitio')
+            ->brandName('Localhost')
             // Panel pages carry no favicon link of their own, so browsers fell
             // back to /favicon.ico and kept serving whatever they had cached —
             // favicons are cached far more stubbornly than ordinary assets. The

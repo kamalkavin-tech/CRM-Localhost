@@ -7,7 +7,7 @@
 
     {{-- Header --}}
     <div class="flex items-center justify-between h-16 px-4 shrink-0">
-        <a href="{{ url('/') }}" aria-label="Qbitio Home">
+        <a href="{{ url('/') }}" aria-label="Localhost Home">
             <x-brand.logo-lockup size="md" class="text-black dark:text-white"/>
         </a>
         <button type="button" @click="mobileMenu = false"

@@ -1,6 +1,6 @@
 # Import Guide
 
-Qbitio's import wizard lets you bulk import data from CSV files into your CRM.
+Localhost's import wizard lets you bulk import data from CSV files into your CRM.
 
 ## Supported Entities
 
@@ -49,7 +49,7 @@ Qbitio's import wizard lets you bulk import data from CSV files into your CRM.
 
 ### Step 2: Map Columns
 
-The wizard automatically matches CSV columns to Qbitio fields by comparing column names.
+The wizard automatically matches CSV columns to Localhost fields by comparing column names.
 
 **Auto-Mapping Examples**:
 - "company_name", "Company", "Organization" → Company Name

@@ -1,5 +1,5 @@
 {{--
-    The Qbitio mark, in the supplied artwork for each theme.
+    The Localhost mark, in the supplied artwork for each theme.
 
     Two images swapped by the `dark` class rather than one filtered with
     `dark:invert`: both files were provided, and an inverted black PNG is only
@@ -32,14 +32,14 @@
     {{ $attributes->class("inline-flex flex-shrink-0 items-center justify-center {$sizeClass}") }}
 >
     <img
-        src="{{ asset('images/qbitio-mark.png') }}"
+        src="{{ asset('images/localhost-mark.png') }}"
         alt=""
         aria-hidden="true"
         class="h-full w-full object-contain dark:hidden"
     />
 
     <img
-        src="{{ asset('images/qbitio-mark-dark.png') }}"
+        src="{{ asset('images/localhost-mark-dark.png') }}"
         alt=""
         aria-hidden="true"
         class="hidden h-full w-full object-contain dark:block"

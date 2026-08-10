@@ -1,5 +1,5 @@
 {{--
-    Brand lockup: the Qbitio mark, optionally followed by the wordmark.
+    Brand lockup: the Localhost mark, optionally followed by the wordmark.
 
     Previously an inline SVG of the old mark and wordmark. Callers pass
     only a size and a text colour, so the root is a span and the colour applies
@@ -19,9 +19,9 @@
 @endphp
 
 <span {{ $attributes->class('inline-flex items-center gap-2') }}>
-    <x-brand.qbitio-mark :size="$markSize" />
+    <x-brand.localhost-mark :size="$markSize" />
 
     @if ($showWordmark)
-        <span class="{{ $textSize }} font-semibold tracking-tight">Qbitio</span>
+        <span class="{{ $textSize }} font-semibold tracking-tight">Localhost</span>
     @endif
 </span>

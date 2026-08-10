@@ -1,6 +1,6 @@
 # Getting Started
 
-Welcome to Qbitio. This guide gets you up and running in 5 minutes.
+Welcome to Localhost. This guide gets you up and running in 5 minutes.
 
 ---
 
@@ -29,7 +29,7 @@ Welcome to Qbitio. This guide gets you up and running in 5 minutes.
 
 ## Core Concepts
 
-Qbitio organizes your customer data into five connected entities:
+Localhost organizes your customer data into five connected entities:
 
 | Entity | Purpose | Example |
 |--------|---------|---------|
@@ -111,7 +111,7 @@ Already have data in spreadsheets? Import it directly.
 1. Go to any entity list (Companies, People, etc.)
 2. Click **Import** in the header
 3. Upload your CSV file
-4. Map columns to Qbitio fields
+4. Map columns to Localhost fields
 5. Review and import
 
 See the **Import Guide** for detailed instructions and CSV templates.

@@ -48,9 +48,9 @@ use Laravel\Mcp\Server\Attributes\Version;
 use Laravel\Mcp\Server\Prompt;
 use Laravel\Mcp\Server\Tool;
 
-#[Name('Qbitio CRM')]
+#[Name('Localhost CRM')]
 #[Version('1.0.0')]
-#[Instructions('This server provides access to Qbitio CRM data including companies, people, deals, tasks, and notes. All operations are scoped to the authenticated user\'s current team.')]
+#[Instructions('This server provides access to Localhost CRM data including companies, people, deals, tasks, and notes. All operations are scoped to the authenticated user\'s current team.')]
 final class RelaticleServer extends Server
 {
     public int $defaultPaginationLength = 50;

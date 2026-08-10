@@ -25,7 +25,7 @@ final class Dashboard extends BaseDashboard
 
     protected static ?string $navigationLabel = 'Growth';
 
-    protected ?string $heading = 'Qbitio Admin';
+    protected ?string $heading = 'Localhost Admin';
 
     protected ?string $subheading = 'Platform growth and adoption metrics.';
 

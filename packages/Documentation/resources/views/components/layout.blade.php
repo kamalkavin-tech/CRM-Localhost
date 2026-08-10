@@ -11,9 +11,9 @@
 
 <x-guest-layout 
     :title="!empty($documentTitle) ? $documentTitle . ' - ' . config('app.name') . ' ' . __('Documentation') : config('app.name') . ' - ' . __('Documentation')"
-    :description="!empty($documentTitle) ? $documentTitle . ' - Qbitio Documentation' : 'Documentation for Qbitio - the open-source CRM built for AI agents. Self-hosted with 30 MCP tools, REST API, and 22 custom field types.'"
+    :description="!empty($documentTitle) ? $documentTitle . ' - Localhost Documentation' : 'Documentation for Localhost - the open-source CRM built for AI agents. Self-hosted with 30 MCP tools, REST API, and 22 custom field types.'"
     :ogTitle="!empty($documentTitle) ? $documentTitle . ' - ' . config('app.name') . ' ' . __('Documentation') : config('app.name') . ' - Documentation'"
-    :ogDescription="!empty($documentTitle) ? 'Learn about ' . $documentTitle . ' in the Qbitio documentation.' : 'Explore the Qbitio documentation. Installation, MCP server setup, REST API integration, custom fields, and more.'">
+    :ogDescription="!empty($documentTitle) ? 'Learn about ' . $documentTitle . ' in the Localhost documentation.' : 'Explore the Localhost documentation. Installation, MCP server setup, REST API integration, custom fields, and more.'">
     @pushonce('header')
         @vite(['packages/Documentation/resources/js/documentation.js', 'packages/Documentation/resources/css/documentation.css'])
     @endpushonce

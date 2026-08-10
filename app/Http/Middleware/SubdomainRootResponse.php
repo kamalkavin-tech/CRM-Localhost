@@ -21,7 +21,7 @@ final readonly class SubdomainRootResponse
 
         if ($host === config('app.api_domain')) {
             return new JsonResponse([
-                'name' => 'Qbitio API',
+                'name' => 'Localhost API',
                 'version' => 'v1',
                 'docs' => url('/docs/api'),
             ]);
@@ -29,7 +29,7 @@ final readonly class SubdomainRootResponse
 
         if ($host === config('app.mcp_domain')) {
             return new JsonResponse([
-                'name' => 'Qbitio MCP Server',
+                'name' => 'Localhost MCP Server',
                 'version' => '1.0.0',
                 'docs' => url('/docs/mcp'),
             ]);

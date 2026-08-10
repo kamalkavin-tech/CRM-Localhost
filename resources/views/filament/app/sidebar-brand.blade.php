@@ -27,10 +27,10 @@
         class="fi-sidebar-brand"
         aria-label="{{ config('app.name') }}"
     >
-        <x-brand.qbitio-mark size="md" />
+        <x-brand.localhost-mark size="md" />
 
         <span x-show="$store.sidebar.isOpen" x-cloak class="fi-sidebar-brand-name">
-            Qbitio
+            Localhost
         </span>
     </a>
 @endif

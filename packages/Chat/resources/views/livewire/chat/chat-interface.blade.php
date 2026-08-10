@@ -996,7 +996,7 @@ Alpine.data('chatInterface', (initialConversationId, sendUrl, initialMessage, in
             if (!detail.conversationId || detail.conversationId !== this.conversationId) return;
 
             // Update document.title for the browser tab.
-            document.title = `${detail.title || 'Untitled'} - Qbitio`;
+            document.title = `${detail.title || 'Untitled'} - Localhost`;
 
             // Update the visible H1 if present (Filament page header).
             const h1 = document.querySelector('main h1');
