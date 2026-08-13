@@ -108,10 +108,10 @@ final class AppPanelProvider extends PanelProvider
             // favicons are cached far more stubbornly than ordinary assets. The
             // file's mtime as a version means a new icon invalidates itself.
             ->favicon(function (): string {
-                $path = public_path('favicon-96x96.png');
+                $path = public_path('favicon.png');
                 $mtime = is_file($path) ? filemtime($path) : false;
 
-                return asset('favicon-96x96.png').'?v='.($mtime === false ? '1' : (string) $mtime);
+                return asset('favicon.png').'?v='.($mtime === false ? '1' : (string) $mtime);
             })
             ->brandLogo(fn (): View|Factory => Auth::user()?->hasVerifiedEmail()
                 ? view('filament.app.logo-empty')
