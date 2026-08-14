@@ -52,6 +52,12 @@ final class SystemAdminPanelProvider extends PanelProvider
                 'primary' => Color::Indigo,
             ])
             ->brandName('Localhost System Admin')
+            ->favicon(function (): string {
+                $path = public_path('favicon.png');
+                $mtime = is_file($path) ? filemtime($path) : false;
+
+                return asset('favicon.png').'?v='.($mtime === false ? '1' : (string) $mtime);
+            })
             ->discoverResources(in: base_path('packages/SystemAdmin/src/Filament/Resources'), for: 'Relaticle\\SystemAdmin\\Filament\\Resources')
             ->discoverPages(in: base_path('packages/SystemAdmin/src/Filament/Pages'), for: 'Relaticle\\SystemAdmin\\Filament\\Pages')
             ->discoverWidgets(in: base_path('packages/SystemAdmin/src/Filament/Widgets'), for: 'Relaticle\\SystemAdmin\\Filament\\Widgets')

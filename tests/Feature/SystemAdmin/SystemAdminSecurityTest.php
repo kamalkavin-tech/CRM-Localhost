@@ -6,8 +6,9 @@ use App\Models\User;
 use Filament\Facades\Filament;
 use Relaticle\SystemAdmin\Enums\SystemAdministratorRole;
 use Relaticle\SystemAdmin\Models\SystemAdministrator;
+use Relaticle\SystemAdmin\SystemAdminPanelProvider;
 
-mutates(SystemAdministrator::class);
+mutates(SystemAdministrator::class, SystemAdminPanelProvider::class);
 
 describe('SystemAdmin Security', function () {
     beforeEach(function () {
@@ -54,6 +55,15 @@ describe('SystemAdmin Security', function () {
         'teams' => '/sysadmin/teams',
         'system-administrators' => '/sysadmin/system-administrators',
     ]);
+
+    it('configures the Localhost favicon', function () {
+        $faviconPath = public_path('favicon.png');
+        $mtime = filemtime($faviconPath);
+        $faviconUrl = asset('favicon.png').'?v='.(string) $mtime;
+
+        expect($mtime)->not->toBeFalse()
+            ->and(Filament::getPanel('sysadmin')->getFavicon())->toBe($faviconUrl);
+    });
 
     it('blocks regular app users from accessing sysadmin panel', function (string $route) {
         $user = User::factory()->create();
